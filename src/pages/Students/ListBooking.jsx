@@ -401,28 +401,35 @@ const ListBooking = ({ setSidebarOpen }) => {
 
   // Function to handle CSV download
   const handleDownloadCSV = () => {
-    const table = tableRef.current;
-    if (!table) return;
+    if (!allData || allData.length === 0) {
+      alert('No data available to export');
+      return;
+    }
 
-    // Extract table data
-    const rows = Array.from(table.querySelectorAll("tr"));
-    const csvData = rows
-      .map((row) =>
-        Array.from(row.querySelectorAll("th, td"))
-          .map((cell) => cell.innerText)
-          .join(",")
-      )
-      .join("\n");
+    // Create CSV content
+    const headers = csvHeaders.map(header => header.label).join(',');
+    const rows = csvData.map(row => 
+      csvHeaders.map(header => {
+        const value = row[header.key] || '';
+        // Escape commas and quotes in CSV
+        return typeof value === 'string' && (value.includes(',') || value.includes('"')) 
+          ? `"${value.replace(/"/g, '""')}"` 
+          : value;
+      }).join(',')
+    );
+    
+    const csvContent = [headers, ...rows].join('\n');
 
     // Trigger download
-    const blob = new Blob([csvData], { type: "text/csv" });
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = "Staff-Detail.csv";
+    link.download = `Booking-List-${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
 
   if (pageLoading) {
@@ -467,20 +474,20 @@ const ListBooking = ({ setSidebarOpen }) => {
                 </h2>
               </div>
               
-              <div className="flex flex-col xs:flex-row gap-2 xs:gap-3">
+              <div className="flex gap-3">
                 <Link
                   to={"/add-booking"}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 xs:py-2 text-white rounded-lg shadow transition-colors font-semibold text-sm xs:text-base touch-manipulation"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg shadow transition-colors font-semibold text-sm touch-manipulation"
                   style={{backgroundColor: 'hsl(45, 43%, 58%)'}}
                 >
-                  <FiPlus className="text-base xs:text-lg" />
+                  <FiPlus className="text-sm" />
                   Add Booking
                 </Link>
                 <button
-                  onClick={() => alert('CSV export feature coming soon')}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 xs:py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 active:bg-gray-900 transition-colors font-semibold text-sm xs:text-base touch-manipulation"
+                  onClick={handleDownloadCSV}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 active:bg-gray-900 transition-colors font-semibold text-sm touch-manipulation"
                 >
-                  <AiFillFileExcel className="text-base xs:text-lg" />
+                  <AiFillFileExcel className="text-sm" />
                   Download CSV
                 </button>
               </div>
