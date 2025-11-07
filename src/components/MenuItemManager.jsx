@@ -365,10 +365,10 @@ const MenuItemManager = () => {
             onChange={(e) => setNewItemForm({...newItemForm, foodType: e.target.value})}
             className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
           >
-            <option value="">Select Food Type</option>
-            <option value="Both">Both</option>
-            <option value="Veg">Veg</option>
-            <option value="Non-Veg">Non-Veg</option>
+            <option key="select" value="">Select Food Type</option>
+            <option key="both" value="Both">Both</option>
+            <option key="veg" value="Veg">Veg</option>
+            <option key="non-veg" value="Non-Veg">Non-Veg</option>
           </select>
           <button 
             onClick={addMenuItem}
@@ -402,10 +402,10 @@ const MenuItemManager = () => {
             }}
             className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
           >
-            <option value="All">All Items</option>
-            <option value="Veg">Veg Only</option>
-            <option value="Non-Veg">Non-Veg Only</option>
-            <option value="Both">Both</option>
+            <option key="all" value="All">All Items</option>
+            <option key="veg" value="Veg">Veg Only</option>
+            <option key="non-veg" value="Non-Veg">Non-Veg Only</option>
+            <option key="both" value="Both">Both</option>
           </select>
         </div>
         
@@ -456,9 +456,9 @@ const MenuItemManager = () => {
                             onChange={(e) => setEditForm({...editForm, price: e.target.value})}
                             className="w-full px-3 py-2 border rounded-lg text-sm"
                           >
-                            <option>Both</option>
-                            <option>Veg</option>
-                            <option>Non-Veg</option>
+                            <option key="both" value="Both">Both</option>
+                            <option key="veg" value="Veg">Veg</option>
+                            <option key="non-veg" value="Non-Veg">Non-Veg</option>
                           </select>
                         </td>
                         <td className="px-6 py-4">
