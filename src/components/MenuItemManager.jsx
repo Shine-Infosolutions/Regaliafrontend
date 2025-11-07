@@ -336,13 +336,13 @@ const MenuItemManager = () => {
 
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
-      <h2 className="text-2xl font-bold mb-6" style={{color: 'hsl(45, 100%, 20%)'}}>Menu Item Manager</h2>
+    <div className="bg-white rounded-lg shadow-sm border p-3 xs:p-4 sm:p-6">
+      <h2 className="text-lg xs:text-xl sm:text-2xl font-bold mb-4 xs:mb-6" style={{color: 'hsl(45, 100%, 20%)'}}>Menu Item Manager</h2>
       
       {/* Add New Menu Item Section */}
-      <div className="bg-white rounded-lg border p-6 mb-6">
-        <h3 className="text-lg font-semibold mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>Add New Menu Item</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="bg-white rounded-lg border p-3 xs:p-4 sm:p-6 mb-4 xs:mb-6">
+        <h3 className="text-base xs:text-lg font-semibold mb-3 xs:mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>Add New Menu Item</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
           <input
             type="text"
             placeholder="Item Name"
@@ -372,7 +372,7 @@ const MenuItemManager = () => {
           </select>
           <button 
             onClick={addMenuItem}
-            className="px-6 py-3 text-white rounded-lg font-medium"
+            className="px-4 xs:px-6 py-2.5 xs:py-3 text-white rounded-lg font-medium touch-manipulation text-sm xs:text-base sm:col-span-2 lg:col-span-1"
             style={{backgroundColor: 'hsl(45, 43%, 58%)'}}
           >
             + Add Item

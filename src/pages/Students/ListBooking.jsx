@@ -30,13 +30,13 @@ const ListBooking = ({ setSidebarOpen }) => {
   const readyState = 0;
   const sendMessage = () => {};
   
-  // Detect mobile view
+  // Detect mobile view with better breakpoint
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth <= 600 : false
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
   );
   
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 600);
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -432,72 +432,69 @@ const ListBooking = ({ setSidebarOpen }) => {
   return (
     <div className="min-h-screen" style={{backgroundColor: 'hsl(45, 100%, 95%)'}}>
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-3 xs:px-4 py-3 xs:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 xs:gap-4">
             {/* Hamburger Menu for Mobile */}
             <button
               onClick={() => setSidebarOpen && setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-lg bg-[#c3ad6b] text-white hover:bg-[#b39b5a] transition-colors"
+              className="lg:hidden p-2 rounded-lg bg-[#c3ad6b] text-white hover:bg-[#b39b5a] active:bg-[#a08a4f] transition-colors touch-manipulation"
             >
-              <FiMenu className="w-5 h-5" />
+              <FiMenu className="w-4 h-4 xs:w-5 xs:h-5" />
             </button>
-            <h1 className="text-xl lg:text-2xl font-bold" style={{color: 'hsl(45, 100%, 20%)'}}>
+            <h1 className="text-lg xs:text-xl lg:text-2xl font-bold truncate" style={{color: 'hsl(45, 100%, 20%)'}}>
               Booking List
             </h1>
           </div>
-          {isMobile && (
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c3ad6b]/10 text-[#c3ad6b] font-semibold text-sm shadow">
-              {userRole === "Admin" ? "👑 Admin" : "👤 Staff"}
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1 xs:gap-2 px-2 xs:px-3 py-1 rounded-full bg-[#c3ad6b]/10 text-[#c3ad6b] font-semibold text-xs xs:text-sm shadow">
+            {userRole === "Admin" ? "👑 Admin" : "👤 Staff"}
+          </span>
         </div>
       </header>
       
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="p-6 space-y-6">
+      <main className="container mx-auto px-3 xs:px-4 py-4 xs:py-6">
+        <div className="bg-white rounded-lg xs:rounded-xl shadow-md overflow-hidden">
+          <div className="p-3 xs:p-4 sm:p-6 space-y-4 xs:space-y-6">
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <div className="flex items-center space-x-3">
-                <div className="bg-[#c3ad6b]/20 p-2 rounded-full">
-                  <FiPlus className="text-[#c3ad6b] text-lg" />
+            <div className="flex flex-col gap-3 xs:gap-4">
+              <div className="flex items-center space-x-2 xs:space-x-3">
+                <div className="bg-[#c3ad6b]/20 p-1.5 xs:p-2 rounded-full">
+                  <FiPlus className="text-[#c3ad6b] text-base xs:text-lg" />
                 </div>
-                <h2 className="text-xl font-semibold" style={{color: 'hsl(45, 100%, 20%)'}}>
+                <h2 className="text-lg xs:text-xl font-semibold" style={{color: 'hsl(45, 100%, 20%)'}}>
                   Manage Bookings
                 </h2>
-
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex flex-col xs:flex-row gap-2 xs:gap-3">
                 <Link
                   to={"/add-booking"}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg shadow transition-colors font-semibold"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 xs:py-2 text-white rounded-lg shadow transition-colors font-semibold text-sm xs:text-base touch-manipulation"
                   style={{backgroundColor: 'hsl(45, 43%, 58%)'}}
                 >
-                  <FiPlus className="text-lg" />
+                  <FiPlus className="text-base xs:text-lg" />
                   Add Booking
                 </Link>
                 <button
                   onClick={() => alert('CSV export feature coming soon')}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-colors font-semibold"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 xs:py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 active:bg-gray-900 transition-colors font-semibold text-sm xs:text-base touch-manipulation"
                 >
-                  <AiFillFileExcel className="text-lg" />
+                  <AiFillFileExcel className="text-base xs:text-lg" />
                   Download CSV
                 </button>
               </div>
             </div>
 
             {/* Search */}
-            <div className="form-control relative flex items-center max-w-md mx-auto mb-6">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+            <div className="form-control relative flex items-center max-w-full xs:max-w-md mx-auto">
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base xs:text-lg" />
               <input
-                className="input input-bordered pl-10 pr-10 py-2 rounded-full w-full shadow-sm focus:ring-2 focus:ring-[#c3ad6b]"
+                className="input input-bordered pl-10 pr-10 py-2.5 xs:py-2 rounded-full w-full shadow-sm focus:ring-2 focus:ring-[#c3ad6b] text-sm xs:text-base"
                 type="text"
                 value={searchQuery}
                 onChange={handleChange}
-                placeholder="Search By Name, Phone"
+                placeholder={isMobile ? "Search..." : "Search By Name, Phone"}
               />
               {searchQuery && (
                 <span
@@ -505,7 +502,7 @@ const ListBooking = ({ setSidebarOpen }) => {
                     setSearchQuery("");
                     fetchUsers();
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-red-500 hover:text-red-700 text-lg"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-red-500 hover:text-red-700 active:text-red-800 text-base xs:text-lg touch-manipulation"
                 >
                   <FiX />
                 </span>
@@ -513,7 +510,7 @@ const ListBooking = ({ setSidebarOpen }) => {
             </div>
 
             {/* Table */}
-            <div className="mt-6 bg-gold/10 shadow-xl rounded-2xl overflow-x-auto p-2 sm:p-4">
+            <div className="bg-gold/10 shadow-xl rounded-xl xs:rounded-2xl overflow-x-auto p-2 xs:p-3 sm:p-4">
               {loading ? (
                 <div className="flex items-center justify-center m-auto py-16">
                   <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#c3ad6b]"></div>
@@ -522,48 +519,46 @@ const ListBooking = ({ setSidebarOpen }) => {
                 <>
                   {/* Card view for mobile */}
                   <div className="block sm:hidden">
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 gap-3 xs:gap-4">
                       {userData?.map((item) => (
                         <div
                           key={item._id}
-                          className="bg-white rounded-xl shadow p-4 flex flex-col border border-gray-100"
+                          className="bg-white rounded-lg xs:rounded-xl shadow p-3 xs:p-4 flex flex-col border border-gray-100"
                         >
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="w-10 h-10 bg-#c3ad6b rounded-full flex items-center justify-center text-black font-bold text-lg">
+                          <div className="flex items-center gap-2 xs:gap-3 mb-2">
+                            <div className="w-8 h-8 xs:w-10 xs:h-10 bg-[#c3ad6b]/20 rounded-full flex items-center justify-center text-[#c3ad6b] font-bold text-sm xs:text-lg">
                               {item.name?.[0]?.toUpperCase() || "?"}
                             </div>
-                            <div>
-                              <div className="font-bold text-lg">{item.name}</div>
-                              <div className="text-gray-500 text-sm">
+                            <div className="flex-1 min-w-0">
+                              <div className="font-bold text-base xs:text-lg truncate">{item.name}</div>
+                              <div className="text-gray-500 text-xs xs:text-sm break-all">
                                 {item.phone || item.number}
                               </div>
                             </div>
                           </div>
-                          <div className="flex flex-col gap-1 text-sm mb-2">
-                            <div>
-                              <span className="font-semibold">Event Date:</span>{" "}
-                              {new Date(item.eventDate || item.startDate).toLocaleDateString('en-GB')}
+                          <div className="flex flex-col gap-1 text-xs xs:text-sm mb-3">
+                            <div className="flex justify-between">
+                              <span className="font-semibold text-gray-600">Event Date:</span>
+                              <span className="text-right">{new Date(item.eventDate || item.startDate).toLocaleDateString('en-GB')}</span>
                             </div>
-                            <div>
-                              <span className="font-semibold">Rate Plan:</span>{" "}
-                              {item.ratePlan}
+                            <div className="flex justify-between">
+                              <span className="font-semibold text-gray-600">Rate Plan:</span>
+                              <span className="text-right truncate ml-2">{item.ratePlan}</span>
                             </div>
-                            <div>
-                              <span className="font-semibold">Type:</span>{" "}
-                              {item.foodType}
+                            <div className="flex justify-between">
+                              <span className="font-semibold text-gray-600">Type:</span>
+                              <span className="text-right">{item.foodType}</span>
                             </div>
-                            <div>
-                              <span className="font-semibold">Advance:</span>{" "}
-                              ₹{item?.advance !== null && item?.advance !== undefined
-                                ? item?.advance
-                                : 0}
+                            <div className="flex justify-between">
+                              <span className="font-semibold text-gray-600">Advance:</span>
+                              <span className="text-right">₹{item?.advance !== null && item?.advance !== undefined ? item?.advance : 0}</span>
                             </div>
-                            <div>
-                              <span className="font-semibold">Total Amount:</span>{" "}
-                              ₹{item.total || 0}
+                            <div className="flex justify-between">
+                              <span className="font-semibold text-gray-600">Total:</span>
+                              <span className="text-right font-semibold">₹{item.total || 0}</span>
                             </div>
-                            <div>
-                              <span className="font-semibold">Status:</span>{" "}
+                            <div className="flex justify-between items-center">
+                              <span className="font-semibold text-gray-600">Status:</span>
                               <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
                                 item.bookingStatus === 'Confirmed' 
                                   ? 'bg-green-100 text-green-800' 
@@ -575,37 +570,28 @@ const ListBooking = ({ setSidebarOpen }) => {
                               </span>
                             </div>
                           </div>
-                          <div className="flex gap-2 mt-2">
+                          <div className="grid grid-cols-2 gap-2">
                             <Link
                               to={`/banquet/update-booking/${item._id}`}
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white px-3 py-2 rounded shadow text-xs font-semibold transition-colors"
+                              className="inline-flex items-center justify-center gap-1 bg-[#c3ad6b] hover:bg-[#b39b5a] active:bg-[#a08a4f] text-white px-3 py-2 rounded-lg shadow text-xs font-semibold transition-colors touch-manipulation"
                               title="Edit Booking"
                             >
                               <FiEdit /> Edit
                             </Link>
                             <Link
                               to={`/banquet/menu-view/${item._id}`}
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-colors font-semibold px-3 py-2 text-xs"
+                              className="inline-flex items-center justify-center gap-1 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 active:bg-gray-900 transition-colors font-semibold px-3 py-2 text-xs touch-manipulation"
                               title="View Menu"
                             >
-                              <FiEye /> View Menu
+                              <FiEye /> Menu
                             </Link>
-                          </div>
-                          <div className="flex gap-2 mt-2">
                             <Link
                               to={`/banquet/invoice/${item._id}`}
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors font-semibold px-3 py-2 text-xs"
+                              className="inline-flex items-center justify-center gap-1 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 active:bg-blue-800 transition-colors font-semibold px-3 py-2 text-xs touch-manipulation"
                               title="Generate Invoice"
                             >
                               <FiFileText /> Invoice
                             </Link>
-                            {/* <button
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-purple-600 text-white rounded-lg shadow hover:bg-purple-700 transition-colors font-semibold px-3 py-2 text-xs"
-                            >
-                              <FiFileText /> Chef Invoice
-                            </button> */}
-                          </div>
-                          <div className="flex gap-2 mt-2">
                             <button
                               onClick={() => {
                                 let raw = String(item.whatsapp || item.number || "").replace(/[^\d]/g, "");
@@ -623,14 +609,14 @@ const ListBooking = ({ setSidebarOpen }) => {
                                 const whatsappUrl = `https://web.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
                                 window.open(whatsappUrl, "_blank");
                               }}
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition-colors font-semibold px-3 py-2 text-xs"
+                              className="inline-flex items-center justify-center gap-1 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 active:bg-green-700 transition-colors font-semibold px-3 py-2 text-xs touch-manipulation"
                               title="Send WhatsApp Message"
                             >
                               <FaWhatsapp /> WhatsApp
                             </button>
                             <button
                               onClick={() => handleDeleteModal(item)}
-                              className="flex-1 inline-flex items-center justify-center gap-1 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition-colors font-semibold px-3 py-2 text-xs"
+                              className="inline-flex items-center justify-center gap-1 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 active:bg-red-800 transition-colors font-semibold px-3 py-2 text-xs touch-manipulation col-span-2"
                               title="Delete Booking"
                             >
                               <FiTrash2 /> Delete
@@ -852,25 +838,25 @@ const ListBooking = ({ setSidebarOpen }) => {
 
             {/* Delete Modal */}
             {isDeleteModalOpen && productToDelete && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-                <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
-                  <div className="p-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-3 xs:p-4 bg-black bg-opacity-50">
+                <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-3 xs:mx-0">
+                  <div className="p-4 xs:p-6">
+                    <h3 className="text-lg font-medium text-gray-900 mb-3 xs:mb-4">
                       Delete Booking
                     </h3>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-gray-600 mb-4 xs:mb-6 text-sm xs:text-base">
                       Are you sure you want to delete this booking? This action cannot be undone.
                     </p>
-                    <div className="flex gap-3 justify-end">
+                    <div className="flex flex-col xs:flex-row gap-2 xs:gap-3 xs:justify-end">
                       <button
                         onClick={cancelDelete}
-                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors"
+                        className="px-4 py-2.5 xs:py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 active:bg-gray-500 transition-colors touch-manipulation text-sm xs:text-base"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={confirmDelete}
-                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                        className="px-4 py-2.5 xs:py-2 bg-red-600 text-white rounded hover:bg-red-700 active:bg-red-800 transition-colors touch-manipulation text-sm xs:text-base"
                       >
                         Delete
                       </button>

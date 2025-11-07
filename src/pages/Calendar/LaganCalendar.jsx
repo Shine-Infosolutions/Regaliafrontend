@@ -14,12 +14,12 @@ import WebSocketStatus from '../../components/WebSocketStatus';
 function LaganCalendar() {
   const { axios } = useAppContext();
   const [pageLoading, setPageLoading] = useState(true);
-  // Detect mobile view
+  // Detect mobile view with better breakpoint
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth <= 600 : false
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
   );
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 600);
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -288,10 +288,10 @@ function LaganCalendar() {
     
     return (
       <div
-        className={`w-12 h-12 sm:w-16 sm:h-16 relative rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200 overflow-hidden ${
+        className={`w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 relative rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200 overflow-hidden touch-manipulation ${
           isSelected 
             ? 'bg-[#c3ad6b] text-white shadow-lg scale-105 border-2 border-[#c3ad6b]' 
-            : 'bg-white hover:bg-[#c3ad6b]/10 border border-gray-200 hover:border-[#c3ad6b]/30'
+            : 'bg-white hover:bg-[#c3ad6b]/10 border border-gray-200 hover:border-[#c3ad6b]/30 active:bg-[#c3ad6b]/20'
         }`}
         onClick={() => {
           setSelectedDate(currentDate);
@@ -312,7 +312,7 @@ function LaganCalendar() {
         )}
         
         {/* Day number */}
-        <span className={`font-bold text-xs sm:text-sm z-10 ${
+        <span className={`font-bold text-xs xs:text-sm sm:text-base z-10 ${
           isSelected ? 'text-white' : 'text-gray-800'
         }`}>
           {day}
@@ -320,8 +320,8 @@ function LaganCalendar() {
         
         {/* Booking count indicator */}
         {bookingCount > 0 && (
-          <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow">
-            {bookingCount}
+          <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 xs:w-5 xs:h-5 flex items-center justify-center font-bold shadow text-[10px] xs:text-xs">
+            {bookingCount > 9 ? '9+' : bookingCount}
           </div>
         )}
       </div>
@@ -339,12 +339,12 @@ function LaganCalendar() {
         const cellIndex = week * 7 + i;
         if (cellIndex < firstDay || day > daysInMonth) {
           days.push(
-            <td key={i} className="h-16 sm:h-20 align-top text-center"></td>
+            <td key={i} className="h-12 xs:h-14 sm:h-16 md:h-20 align-top text-center"></td>
           );
         } else {
           const cellContent = dateTemplate({ year, month, day });
           days.push(
-            <td key={i} className="h-16 sm:h-20 p-1">
+            <td key={i} className="h-12 xs:h-14 sm:h-16 md:h-20 p-0.5 xs:p-1">
               <div className="h-full flex items-center justify-center">
                 {cellContent}
               </div>
@@ -469,61 +469,54 @@ function LaganCalendar() {
   return (
     <div className="min-h-screen" style={{backgroundColor: 'hsl(45, 100%, 95%)'}}>
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold" style={{color: 'hsl(45, 100%, 20%)'}}>
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-3 xs:px-4 py-3 xs:py-4 flex items-center justify-between">
+          <h1 className="text-lg xs:text-xl sm:text-2xl font-bold truncate" style={{color: 'hsl(45, 100%, 20%)'}}>
             Lagan Calendar
           </h1>
-          {isMobile && (
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c3ad6b]/10 text-[#c3ad6b] font-semibold text-sm shadow">
+          <div className="flex items-center gap-2 xs:gap-4">
+            <span className="inline-flex items-center gap-1 xs:gap-2 px-2 xs:px-3 py-1 rounded-full bg-[#c3ad6b]/10 text-[#c3ad6b] font-semibold text-xs xs:text-sm shadow">
               {userRole === "Admin" ? "👑 Admin" : "👤 Staff"}
             </span>
-          )}
-          {!isMobile && (
-            <div className="flex items-center gap-4">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c3ad6b]/10 text-[#c3ad6b] font-semibold text-sm shadow">
-                {userRole === "Admin" ? "👑 Admin" : "👤 Staff"}
-              </span>
-              <WebSocketStatus />
-            </div>
-          )}
+            {!isMobile && <WebSocketStatus />}
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="p-6">
+      <main className="container mx-auto px-3 xs:px-4 py-4 xs:py-6">
+        <div className="bg-white rounded-lg xs:rounded-xl shadow-md overflow-hidden">
+          <div className="p-3 xs:p-4 sm:p-6">
             {/* Navigation */}
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+            <div className="flex flex-col xs:flex-row justify-between items-center gap-3 xs:gap-4 mb-4 xs:mb-6">
               <button
                 onClick={handlePrev}
-                className="w-full sm:w-auto px-6 py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors"
+                className="px-4 xs:px-6 py-2 xs:py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] active:bg-[#a08a4f] text-white rounded-lg shadow font-semibold transition-colors touch-manipulation text-sm xs:text-base"
               >
                 ← Previous
               </button>
-              <h2 className="text-xl md:text-2xl font-bold text-center" style={{color: 'hsl(45, 100%, 20%)'}}>
+              <h2 className="text-lg xs:text-xl md:text-2xl font-bold text-center px-2" style={{color: 'hsl(45, 100%, 20%)'}}>
                 {`${monthNames[month]} ${year}`}
               </h2>
               <button
                 onClick={handleNext}
-                className="w-full sm:w-auto px-6 py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors"
+                className="px-4 xs:px-6 py-2 xs:py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] active:bg-[#a08a4f] text-white rounded-lg shadow font-semibold transition-colors touch-manipulation text-sm xs:text-base"
               >
                 Next →
               </button>
             </div>
 
             {/* Calendar */}
-            <div className="overflow-x-auto bg-[#c3ad6b]/10 rounded-xl p-4">
-              <table className="w-full border-collapse min-w-[600px]">
+            <div className="overflow-x-auto bg-[#c3ad6b]/10 rounded-lg xs:rounded-xl p-2 xs:p-4">
+              <table className="w-full border-collapse min-w-[280px] xs:min-w-[320px] sm:min-w-[480px] md:min-w-[600px]">
                 <thead>
                   <tr>
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, index) => (
                       <th
                         key={day}
-                        className="h-12 text-sm md:text-base font-bold text-[#c3ad6b] border-b-2 border-[#c3ad6b]/20"
+                        className="h-8 xs:h-10 sm:h-12 text-xs xs:text-sm md:text-base font-bold text-[#c3ad6b] border-b-2 border-[#c3ad6b]/20 px-1"
                       >
-                        {day}
+                        {isMobile && window.innerWidth < 400 ? day.charAt(0) : day}
                       </th>
                     ))}
                   </tr>
@@ -533,21 +526,21 @@ function LaganCalendar() {
             </div>
 
             {/* Add Booking Button */}
-            <div className="mt-6 text-center">
+            <div className="mt-4 xs:mt-6 text-center">
               <Link
                 to="/add-booking"
                 state={{ selectedDate }}
               >
                 <button
-                  className={`py-3 px-8 rounded-lg font-semibold shadow transition-colors ${
+                  className={`py-2 xs:py-3 px-6 xs:px-8 rounded-lg font-semibold shadow transition-colors touch-manipulation text-sm xs:text-base ${
                     selectedDate
-                      ? "bg-[#c3ad6b] hover:bg-[#b39b5a] text-white"
+                      ? "bg-[#c3ad6b] hover:bg-[#b39b5a] active:bg-[#a08a4f] text-white"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                   disabled={!selectedDate}
                   onClick={handleBooking}
                 >
-                  Book Now {selectedDate && `for ${selectedDate}`}
+                  {isMobile && selectedDate ? `Book ${selectedDate}` : `Book Now ${selectedDate ? `for ${selectedDate}` : ''}`}
                 </button>
               </Link>
             </div>
@@ -555,63 +548,65 @@ function LaganCalendar() {
         </div>
         {/* Booking list for selected date */}
         {selectedDate && (
-          <div className="mt-6">
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>
+          <div className="mt-4 xs:mt-6">
+            <div className="bg-white rounded-lg xs:rounded-xl shadow-md overflow-hidden">
+              <div className="p-3 xs:p-4 sm:p-6">
+                <h3 className="text-lg xs:text-xl font-bold mb-3 xs:mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>
                   Bookings for {selectedDate}
                 </h3>
                 
                 {/* Status Filter & Search */}
-                <div className="mb-6 flex flex-col sm:flex-row gap-4">
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-[#c3ad6b]">Status:</label>
-                    <select
-                      className="border border-[#c3ad6b]/30 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#c3ad6b] focus:border-[#c3ad6b]"
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                      <option value="All">All</option>
-                      <option value="Tentative">Tentative</option>
-                      <option value="Enquiry">Enquiry</option>
-                      <option value="Confirmed">Confirmed</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-2 flex-1">
-                    <input
-                      type="text"
-                      className="border border-[#c3ad6b]/30 rounded-lg px-3 py-2 text-sm w-full focus:ring-2 focus:ring-[#c3ad6b] focus:border-[#c3ad6b]"
-                      placeholder="Search by name or phone..."
-                      value={searchTerm}
-                      onChange={async (e) => {
-                        const val = e.target.value;
-                        setSearchTerm(val);
-                        if (!val.trim()) {
-                          setSearchResults(null);
-                          return;
-                        }
-                        setSearchLoading(true);
-                        try {
-                          const resp = await axios.get(
-                            `/api/bookings/search?q=${encodeURIComponent(val)}`
-                          );
-                          const results = (resp.data.data || resp.data || []).filter(
-                            (b) => {
-                              const dateKey = b.startDate && b.startDate.split("T")[0];
-                              return dateKey === selectedDate;
-                            }
-                          );
-                          setSearchResults(results);
-                        } catch (err) {
-                          setSearchResults([]);
-                        } finally {
-                          setSearchLoading(false);
-                        }
-                      }}
-                    />
-                    {searchLoading && (
-                      <span className="text-xs text-[#c3ad6b]">Searching...</span>
-                    )}
+                <div className="mb-4 xs:mb-6 flex flex-col gap-3 xs:gap-4">
+                  <div className="flex flex-col xs:flex-row gap-3 xs:gap-4">
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-[#c3ad6b] whitespace-nowrap">Status:</label>
+                      <select
+                        className="border border-[#c3ad6b]/30 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#c3ad6b] focus:border-[#c3ad6b] flex-1 xs:flex-none"
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                      >
+                        <option value="All">All</option>
+                        <option value="Tentative">Tentative</option>
+                        <option value="Enquiry">Enquiry</option>
+                        <option value="Confirmed">Confirmed</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-2 flex-1">
+                      <input
+                        type="text"
+                        className="border border-[#c3ad6b]/30 rounded-lg px-3 py-2 text-sm w-full focus:ring-2 focus:ring-[#c3ad6b] focus:border-[#c3ad6b]"
+                        placeholder={isMobile ? "Search..." : "Search by name or phone..."}
+                        value={searchTerm}
+                        onChange={async (e) => {
+                          const val = e.target.value;
+                          setSearchTerm(val);
+                          if (!val.trim()) {
+                            setSearchResults(null);
+                            return;
+                          }
+                          setSearchLoading(true);
+                          try {
+                            const resp = await axios.get(
+                              `/api/bookings/search?q=${encodeURIComponent(val)}`
+                            );
+                            const results = (resp.data.data || resp.data || []).filter(
+                              (b) => {
+                                const dateKey = b.startDate && b.startDate.split("T")[0];
+                                return dateKey === selectedDate;
+                              }
+                            );
+                            setSearchResults(results);
+                          } catch (err) {
+                            setSearchResults([]);
+                          } finally {
+                            setSearchLoading(false);
+                          }
+                        }}
+                      />
+                      {searchLoading && (
+                        <span className="text-xs text-[#c3ad6b] whitespace-nowrap">Searching...</span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -626,26 +621,26 @@ function LaganCalendar() {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4">
                     {displayBookings.map((b, i) => (
                       <div
                         key={i}
-                        className="bg-[#c3ad6b]/10 border border-[#c3ad6b]/20 rounded-lg p-4 hover:shadow-md transition-shadow"
+                        className="bg-[#c3ad6b]/10 border border-[#c3ad6b]/20 rounded-lg p-3 xs:p-4 hover:shadow-md transition-shadow"
                       >
-                        <div className="font-bold text-gray-800 mb-2">{b.name}</div>
-                        <div className="text-sm text-gray-600 space-y-1 mb-3">
-                          <div>📞 {b.number || b.contact}</div>
+                        <div className="font-bold text-gray-800 mb-2 text-sm xs:text-base">{b.name}</div>
+                        <div className="text-xs xs:text-sm text-gray-600 space-y-1 mb-3">
+                          <div className="break-all">📞 {b.number || b.contact}</div>
                           <div>📋 {b.bookingStatus}</div>
                           {b.notes && (
-                            <div>📝 {b.notes}</div>
+                            <div className="break-words">📝 {b.notes}</div>
                           )}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col xs:flex-row gap-2">
                           <button
                             onClick={() => {
                               if (b._id) navigate(`/banquet/update-booking/${b._id}`);
                             }}
-                            className="flex-1 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                            className="flex-1 bg-[#c3ad6b] hover:bg-[#b39b5a] active:bg-[#a08a4f] text-white px-3 py-2 rounded-lg text-xs xs:text-sm font-medium transition-colors touch-manipulation"
                           >
                             Edit
                           </button>
@@ -653,7 +648,7 @@ function LaganCalendar() {
                             onClick={() => {
                               if (b._id) navigate(`/banquet/invoice/${b._id}`);
                             }}
-                            className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                            className="flex-1 bg-gray-600 hover:bg-gray-700 active:bg-gray-800 text-white px-3 py-2 rounded-lg text-xs xs:text-sm font-medium transition-colors touch-manipulation"
                           >
                             Invoice
                           </button>

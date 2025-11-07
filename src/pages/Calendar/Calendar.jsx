@@ -318,35 +318,35 @@ function Calendar({ setSidebarOpen }) {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="p-6">
+          <div className="p-3 sm:p-6">
             {/* Navigation */}
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
               <button
                 onClick={handlePrev}
-                className="w-full sm:w-auto px-6 py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors text-sm sm:text-base"
               >
                 ← Previous
               </button>
-              <h2 className="text-xl md:text-2xl font-bold text-center" style={{color: 'hsl(45, 100%, 20%)'}}>
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center" style={{color: 'hsl(45, 100%, 20%)'}}>
                 {monthNames[month]} {year}
               </h2>
               <button
                 onClick={handleNext}
-                className="w-full sm:w-auto px-6 py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-[#c3ad6b] hover:bg-[#b39b5a] text-white rounded-lg shadow font-semibold transition-colors text-sm sm:text-base"
               >
                 Next →
               </button>
             </div>
 
             {/* Calendar */}
-            <div className="overflow-x-auto bg-[#c3ad6b]/10 rounded-xl p-4">
-              <table className="w-full border-collapse min-w-[600px]">
+            <div className="overflow-x-auto bg-[#c3ad6b]/10 rounded-xl p-2 sm:p-4">
+              <table className="w-full border-collapse min-w-[280px] sm:min-w-[600px]">
                 <thead>
                   <tr>
                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                      <th key={day} className="h-12 text-sm md:text-base font-bold text-[#c3ad6b] border-b-2 border-[#c3ad6b]/20">
+                      <th key={day} className="h-8 sm:h-12 text-xs sm:text-sm md:text-base font-bold text-[#c3ad6b] border-b-2 border-[#c3ad6b]/20">
                         {day}
                       </th>
                     ))}
@@ -357,13 +357,13 @@ function Calendar({ setSidebarOpen }) {
             </div>
 
             {/* Add Booking Button */}
-            <div className="mt-6 text-center">
+            <div className="mt-4 sm:mt-6 text-center">
               <Link
                 to="/add-booking"
                 state={{ selectedDate }}
               >
                 <button
-                  className={`py-3 px-8 rounded-lg font-semibold shadow transition-colors ${
+                  className={`w-full sm:w-auto py-2 sm:py-3 px-6 sm:px-8 rounded-lg font-semibold shadow transition-colors text-sm sm:text-base ${
                     selectedDate
                       ? "bg-[#c3ad6b] hover:bg-[#b39b5a] text-white"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -379,10 +379,10 @@ function Calendar({ setSidebarOpen }) {
 
         {/* Booking list for selected date */}
         {selectedDate && (
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>
+              <div className="p-3 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4" style={{color: 'hsl(45, 100%, 20%)'}}>
                   Bookings for {selectedDate}
                 </h3>
                 {bookingsForDate.length === 0 ? (

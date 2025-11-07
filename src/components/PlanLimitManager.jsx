@@ -307,43 +307,43 @@ const PlanLimitManager = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold" style={{color: 'hsl(45, 100%, 20%)'}}>Plan Limit Manager</h2>
+    <div className="bg-white rounded-lg shadow-sm border p-3 xs:p-4 sm:p-6">
+      <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-3 xs:gap-0 mb-4 xs:mb-6">
+        <h2 className="text-lg xs:text-xl sm:text-2xl font-bold" style={{color: 'hsl(45, 100%, 20%)'}}>Plan Limit Manager</h2>
         <button
           onClick={() => setEditingPlan({})}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          className="bg-green-500 text-white px-4 py-2.5 xs:py-2 rounded hover:bg-green-600 active:bg-green-700 transition-colors touch-manipulation text-sm xs:text-base w-full xs:w-auto"
         >
           Add New Plan
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
         {loading ? (
-          <div className="col-span-full text-center py-8">Loading...</div>
+          <div className="col-span-full text-center py-6 xs:py-8 text-sm xs:text-base">Loading...</div>
         ) : limits.length === 0 ? (
-          <div className="col-span-full text-center py-8">No plan limits found</div>
+          <div className="col-span-full text-center py-6 xs:py-8 text-sm xs:text-base">No plan limits found</div>
         ) : (
           limits.map(limit => (
-            <div key={`${limit.ratePlan}-${limit.foodType}`} className="bg-white rounded-lg shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">
+            <div key={`${limit.ratePlan}-${limit.foodType}`} className="bg-white rounded-lg shadow-md p-3 xs:p-4">
+              <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-2 xs:gap-0 mb-3 xs:mb-4">
+                <h3 className="text-base xs:text-lg font-semibold">
                   {limit.ratePlan} - {limit.foodType}
                 </h3>
                 <button
                   onClick={() => setEditingPlan(limit)}
-                  className="text-blue-600 hover:text-blue-800 text-sm"
+                  className="text-blue-600 hover:text-blue-800 active:text-blue-900 text-xs xs:text-sm touch-manipulation"
                 >
                   Edit
                 </button>
               </div>
               
-              <div className="space-y-2 text-sm">
+              <div className="space-y-1 xs:space-y-2 text-xs xs:text-sm">
                 {Object.entries(limit.limits || {}).map(([categoryKey, value]) => {
                   const category = categories.find(cat => cat._id === categoryKey || cat.cateName === categoryKey);
                   return (
                     <div key={categoryKey} className="flex justify-between">
-                      <span className="text-gray-600">{category?.cateName || categoryKey}:</span>
+                      <span className="text-gray-600 truncate mr-2">{category?.cateName || categoryKey}:</span>
                       <span className="font-medium">{value}</span>
                     </div>
                   );

@@ -20,17 +20,17 @@ const MenuPlanManager = () => {
 
   return (
     <div className="min-h-screen" style={{backgroundColor: 'hsl(45, 100%, 95%)'}}>
-      <div className="p-4 sm:p-6">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{color: 'hsl(45, 100%, 20%)'}}>Menu & Plans Management</h1>
+      <div className="p-3 xs:p-4 sm:p-6">
+        <h1 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6 px-1" style={{color: 'hsl(45, 100%, 20%)'}}>Menu & Plans Management</h1>
         
-        <div className="mb-6">
-          <div className="flex border-b" style={{borderColor: 'hsl(45, 100%, 85%)'}}>
+        <div className="mb-4 xs:mb-6">
+          <div className="flex border-b overflow-x-auto" style={{borderColor: 'hsl(45, 100%, 85%)'}}>
             <button
               onClick={() => setActiveTab('menu')}
-              className={`px-6 py-3 font-medium transition-colors ${
+              className={`px-4 xs:px-6 py-2.5 xs:py-3 font-medium transition-colors whitespace-nowrap touch-manipulation text-sm xs:text-base ${
                 activeTab === 'menu'
                   ? 'border-b-2 text-white'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-gray-600 hover:text-gray-800 active:text-gray-900'
               }`}
               style={{
                 borderBottomColor: activeTab === 'menu' ? 'hsl(45, 43%, 58%)' : 'transparent',
@@ -42,10 +42,10 @@ const MenuPlanManager = () => {
             </button>
             <button
               onClick={() => setActiveTab('plans')}
-              className={`px-6 py-3 font-medium transition-colors ${
+              className={`px-4 xs:px-6 py-2.5 xs:py-3 font-medium transition-colors whitespace-nowrap touch-manipulation text-sm xs:text-base ${
                 activeTab === 'plans'
                   ? 'border-b-2 text-white'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-gray-600 hover:text-gray-800 active:text-gray-900'
               }`}
               style={{
                 borderBottomColor: activeTab === 'plans' ? 'hsl(45, 43%, 58%)' : 'transparent',
