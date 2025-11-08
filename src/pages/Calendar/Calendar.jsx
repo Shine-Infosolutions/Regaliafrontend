@@ -288,6 +288,37 @@ function Calendar({ setSidebarOpen }) {
 
   const bookingsForDate = bookings[selectedDate] || []
 
+  // Convert 24-hour time to 12-hour format
+  const convertTo12Hour = (time24) => {
+    if (!time24) return time24
+    
+    // If already in 12-hour format, return as is
+    if (time24.toLowerCase().includes('am') || time24.toLowerCase().includes('pm')) {
+      return time24
+    }
+    
+    // Handle HH:MM format
+    if (time24.includes(':')) {
+      const [hours, minutes] = time24.split(':')
+      const hour = parseInt(hours)
+      const min = minutes || '00'
+      
+      if (hour === 0) return `12:${min} AM`
+      if (hour < 12) return `${hour}:${min} AM`
+      if (hour === 12) return `12:${min} PM`
+      return `${hour - 12}:${min} PM`
+    }
+    
+    // Handle single number format
+    const hour = parseInt(time24)
+    if (isNaN(hour)) return time24
+    
+    if (hour === 0) return '12 AM'
+    if (hour < 12) return `${hour} AM`
+    if (hour === 12) return '12 PM'
+    return `${hour - 12} PM`
+  }
+
   if (pageLoading) {
     return <DashboardLoader pageName="Calendar" />
   }
@@ -403,7 +434,7 @@ function Calendar({ setSidebarOpen }) {
                           <div>📞 {b.phone || b.number || b.contact}</div>
                           <div>📋 {b.bookingStatus}</div>
                           {(b.startTime || b.time) && (
-                            <div>⏰ {b.startTime || b.time}</div>
+                            <div>⏰ {convertTo12Hour(b.startTime || b.time)}</div>
                           )}
                           {b.notes && (
                             <div>📝 {b.notes}</div>
